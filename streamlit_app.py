@@ -25,10 +25,13 @@ my_dataframe = (
           col('SEARCH_ON')
         )
 )
-# debug start
-st.dataframe(data=my_dataframe, use_container_width=True)
-st.stop()
-# debug end
+
+### st.dataframe(data=my_dataframe, use_container_width=True)
+### st.stop()
+# Convert SnowSpark to Pandas Dataframe
+pd_df = my_dataframe.to_pandas()
+st.dataframe(pd_df)
+
 ingredient_list = (
     st
         .multiselect(
@@ -44,6 +47,10 @@ if ingredient_list:
     ingredients_string = ''
     for fruit_chosen in ingredient_list:
         ingredients_string += fruit_chosen + ' '
+
+        search_on = pd_df.loc[ pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON']
+        st.write('The search value for ', fruit_chosen, ' is ', search_on)
+        
         st.subheader(fruit_chosen + ' Nutrition Information')
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_chosen)
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
