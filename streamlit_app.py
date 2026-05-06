@@ -7,15 +7,12 @@ from snowflake.snowpark.functions import col
 #st.title(f"Example Streamlit App :balloon: {st.__version__}")
 st.title(f":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
 st.write(
-  """Choose the fruits you want in your custom Smoothie!
-  
+  """Choose the fruits you want in your custom Smoothie!  
   """
 )
 
-
 name_of_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be: ', name_of_order)
-
 
 cnx = st.connection("snowflake")
 session = cnx.session()
@@ -38,7 +35,7 @@ ingredient_list = (
 if ingredient_list:
     ## st.write(ingredient_list)
     ## st.text(ingredient_list)
-    
+
     ingredients_string = ''
 
     for fruit_chosen in ingredient_list:
@@ -59,4 +56,6 @@ if ingredient_list:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
 
-
+import requests  
+smoothiefroot_response = requests.get("[https://my.smoothiefroot.com/api/fruit/watermelon](https://my.smoothiefroot.com/api/fruit/watermelon)")  
+st.text(smoothiefroot_response)
