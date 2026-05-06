@@ -5,7 +5,8 @@ import streamlit as st
 from snowflake.snowpark.functions import col 
 
 # Write directly to the app
-#st.title(f"Example Streamlit App :balloon: {st.__version__}")
+# st.title(f"Example Streamlit App :balloon: {st.__version__}")
+
 st.title(f":cup_with_straw: Customize Your Smoothie! :cup_with_straw:")
 st.write(
   """Choose the fruits you want in your custom Smoothie!  
@@ -28,9 +29,10 @@ my_dataframe = (
 
 ### st.dataframe(data=my_dataframe, use_container_width=True)
 ### st.stop()
+
 # Convert SnowSpark to Pandas Dataframe
 pd_df = my_dataframe.to_pandas()
-st.dataframe(pd_df)
+### st.dataframe(pd_df)
 
 ingredient_list = (
     st
@@ -49,10 +51,10 @@ if ingredient_list:
         ingredients_string += fruit_chosen + ' '
 
         search_on = pd_df.loc[ pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON']
-        st.write('The search value for ', fruit_chosen, ' is ', search_on)
+        ### st.write('The search value for ', fruit_chosen, ' is ', search_on)
         
         st.subheader(fruit_chosen + ' Nutrition Information')
-        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + fruit_chosen)
+        smoothiefroot_response = requests.get(F"https://my.smoothiefroot.com/api/fruit/{search_on}")
         sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
     #st.write(ingredients_string)
 
